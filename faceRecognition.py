@@ -1,7 +1,7 @@
 import sys
 import cv2
 import numpy as np
-from PyQt5.QtWidgets import QMainWindow, QPushButton, QLabel, QFileDialog, QVBoxLayout, QWidget, QComboBox
+from PyQt5.QtWidgets import QMainWindow, QPushButton, QLabel, QFileDialog, QVBoxLayout, QWidget, QComboBox, QDesktopWidget
 from PyQt5.QtGui import QPixmap, QImage
 from PyQt5.QtCore import Qt
 
@@ -10,16 +10,14 @@ class FaceDetectionFeatureWindow(QMainWindow):
         super().__init__()
 
         self.setWindowTitle('Face Detection')
-        self.setGeometry(100, 100, 1000, 800)  # Adjusted window size
+        self.setGeometry(0, 0, 800, 600)  # Adjusted window size
+        cwa = self.frameGeometry()
+        cwc = QDesktopWidget().availableGeometry().center()
+        cwa.moveCenter(cwc)
+        self.move(cwa.topLeft())
 
         # Main layout for the face detection feature
         layout = QVBoxLayout()
-
-        # Title label with minimal margin
-        self.title_label = QLabel('Face Detection', self)
-        self.title_label.setStyleSheet("font-size: 24px; font-weight: bold; color: #333333; padding: 5px;")  # Reduced margin
-        self.title_label.setAlignment(Qt.AlignCenter)
-        layout.addWidget(self.title_label)
 
         # Upload button for face detection image
         self.upload_button = QPushButton('Upload Face Image', self)
@@ -38,6 +36,7 @@ class FaceDetectionFeatureWindow(QMainWindow):
 
         # Face detection image label
         self.face_image_label = QLabel('Face Detection Image', self)
+        self.face_image_label.setAlignment(Qt.AlignCenter)
         self.face_image_label.setStyleSheet("border: 2px solid #cccccc; background-color: #ffffff;")
         self.face_image_label.setFixedHeight(400)
         layout.addWidget(self.face_image_label)
@@ -71,11 +70,11 @@ class FaceDetectionFeatureWindow(QMainWindow):
         if self.face_image is not None and len(self.faces) > 0:
             blur_level = self.blur_selector.currentText()
             if blur_level == 'Low':
-                ksize = (21, 21) 
+                ksize = (31, 31) 
             elif blur_level == 'Medium':
-                ksize = (41, 41)
+                ksize = (51, 51)
             elif blur_level == 'High':
-                ksize = (61, 61)
+                ksize = (71, 71)
             else:
                 return  # No blur applied if selection is 'Select Blur Level'
 

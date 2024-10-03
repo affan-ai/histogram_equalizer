@@ -1,5 +1,5 @@
 import cv2
-from PyQt5.QtWidgets import QMainWindow, QPushButton, QLabel, QFileDialog, QVBoxLayout, QWidget
+from PyQt5.QtWidgets import QMainWindow, QPushButton, QLabel, QFileDialog, QVBoxLayout, QWidget, QDesktopWidget
 from PyQt5.QtGui import QPixmap, QImage
 from PyQt5.QtCore import Qt
 
@@ -8,26 +8,31 @@ class EdgeDetectionFeatureWindow(QMainWindow):
         super().__init__()
 
         self.setWindowTitle('Edge Detection')
-        self.setGeometry(100, 100, 1000, 800)  # Adjusted window size
+        self.setGeometry(0, 0, 800, 600)  # Adjusted window size
+        cwa = self.frameGeometry()
+        cwc = QDesktopWidget().availableGeometry().center()
+        cwa.moveCenter(cwc)
+        self.move(cwa.topLeft())
 
         # Main layout for the edge detection feature
         layout = QVBoxLayout()
 
         # Title label
-        self.title_label = QLabel('Edge Detection', self)
-        self.title_label.setStyleSheet("font-size: 24px; font-weight: bold; color: #333333; padding: 10px;")
-        self.title_label.setAlignment(Qt.AlignCenter)
-        layout.addWidget(self.title_label)
+        #self.title_label = QLabel('Edge Detection', self)
+        #self.title_label.setStyleSheet("font-size: 24px; font-weight: bold; color: #333333; padding: 10px;")
+        #self.title_label.setAlignment(Qt.AlignCenter)
+        #layout.addWidget(self.title_label)
 
         # Upload button for edge detection image
         self.upload_button = QPushButton('Upload Image', self)
         self.upload_button.setFixedSize(150, 40)
-        self.upload_button.setStyleSheet("background-color: #4CAF50; color: white; border-radius: 5px;")
+        self.upload_button.setStyleSheet("background-color: #4CAF50; color: white; border-radius: 10px;")
         self.upload_button.clicked.connect(self.upload_image)
         layout.addWidget(self.upload_button, alignment=Qt.AlignLeft)
 
         # Edge detection image label
         self.edge_image_label = QLabel('Edge Detection Image', self)
+        self.edge_image_label.setAlignment(Qt.AlignCenter)
         self.edge_image_label.setStyleSheet("border: 2px solid #cccccc; background-color: #ffffff;")
         self.edge_image_label.setFixedHeight(400)
         layout.addWidget(self.edge_image_label)

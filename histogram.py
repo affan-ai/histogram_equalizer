@@ -1,7 +1,7 @@
 import sys
 import cv2
 import numpy as np
-from PyQt5.QtWidgets import QMainWindow, QPushButton, QLabel, QFileDialog, QVBoxLayout, QHBoxLayout, QWidget, QScrollArea
+from PyQt5.QtWidgets import QMainWindow, QPushButton, QLabel, QFileDialog, QVBoxLayout, QHBoxLayout, QWidget, QScrollArea, QDesktopWidget
 from PyQt5.QtGui import QPixmap, QImage
 from PyQt5.QtCore import Qt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
@@ -12,7 +12,11 @@ class HistogramFeatureWindow(QMainWindow):
         super().__init__()
 
         self.setWindowTitle('Histogram')
-        self.setGeometry(100, 100, 1200, 1000)  # Enlarged window size
+        self.setGeometry(0, 0, 1200, 1000)  # Enlarged window size
+        cwa = self.frameGeometry()
+        cwc = QDesktopWidget().availableGeometry().center()
+        cwa.moveCenter(cwc)
+        self.move(cwa.topLeft())
 
         # Add scroll area to handle large content
         scroll = QScrollArea()
@@ -25,16 +29,10 @@ class HistogramFeatureWindow(QMainWindow):
         # Main layout for the app
         main_layout = QVBoxLayout(main_widget)
 
-        # Title label
-        self.title_label = QLabel('Histogram', self)
-        self.title_label.setStyleSheet("font-size: 24px; font-weight: bold; color: #333333; padding: 10px;")
-        self.title_label.setAlignment(Qt.AlignCenter)
-        main_layout.addWidget(self.title_label)
-
         # Upload button for the image to process
         self.upload_button = QPushButton('Upload Image', self)
         self.upload_button.setFixedSize(120, 40)
-        self.upload_button.setStyleSheet("background-color: #4CAF50; color: white; border-radius: 5px;")
+        self.upload_button.setStyleSheet("background-color: #4CAF50; color: white; border-radius: 10px;")
         self.upload_button.clicked.connect(self.upload_image)
         main_layout.addWidget(self.upload_button, alignment=Qt.AlignLeft)
 
@@ -47,6 +45,7 @@ class HistogramFeatureWindow(QMainWindow):
 
         # Label to display the original image
         self.image_label = QLabel('Original Image', self)
+        self.image_label.setAlignment(Qt.AlignCenter)
         self.image_label.setStyleSheet("border: 2px solid #cccccc; background-color: #ffffff;")
         self.image_label.setFixedWidth(400)
         self.image_label.setFixedHeight(400)
@@ -70,6 +69,7 @@ class HistogramFeatureWindow(QMainWindow):
 
         # Label to display the equalized image
         self.equalized_image_label = QLabel('Equalized Image', self)
+        self.equalized_image_label.setAlignment(Qt.AlignCenter)
         self.equalized_image_label.setStyleSheet("border: 2px solid #cccccc; background-color: #ffffff;")
         self.equalized_image_label.setFixedWidth(400)
         self.equalized_image_label.setFixedHeight(400)
@@ -94,6 +94,7 @@ class HistogramFeatureWindow(QMainWindow):
 
         # Label to display the grayscale image
         self.grayscale_image_label = QLabel('Grayscale Image', self)
+        self.grayscale_image_label.setAlignment(Qt.AlignCenter)
         self.grayscale_image_label.setStyleSheet("border: 2px solid #cccccc; background-color: #ffffff;")
         self.grayscale_image_label.setFixedWidth(400)
         self.grayscale_image_label.setFixedHeight(400)
